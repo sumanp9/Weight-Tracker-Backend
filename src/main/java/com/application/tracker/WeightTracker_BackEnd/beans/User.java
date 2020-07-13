@@ -1,10 +1,13 @@
 package com.application.tracker.WeightTracker_BackEnd.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class UserProfile {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,12 +18,19 @@ public class UserProfile {
     private String emailId;
     private int height;
 
-    @OneToMany(mappedBy = "user_profile")
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private Set<WeightData> weightData;
 
-    public UserProfile() {
+    public User() {
     }
 
+    public User(String firstName, String lastName, String emailId, int height) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailId = emailId;
+        this.height = height;
+    }
 
     public Long getId() {
         return id;
