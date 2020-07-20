@@ -1,7 +1,6 @@
 package com.application.tracker.WeightTracker_BackEnd.Controller;
 
 
-import com.application.tracker.WeightTracker_BackEnd.Unit;
 import com.application.tracker.WeightTracker_BackEnd.beans.User;
 import com.application.tracker.WeightTracker_BackEnd.beans.WeightData;
 import com.application.tracker.WeightTracker_BackEnd.dto.UserDto;

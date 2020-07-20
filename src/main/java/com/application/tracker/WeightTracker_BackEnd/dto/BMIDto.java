@@ -2,31 +2,25 @@ package com.application.tracker.WeightTracker_BackEnd.dto;
 
 import com.application.tracker.WeightTracker_BackEnd.Unit;
 
-public class WeightDto {
+public class BMIDto {
 
-    private Long id;
-    private String date;
-    private int weight;
-    private Unit unit;
+    public int Weight;
+    public Unit unit;
 
-    public Long getId() {
-        return id;
+    public BMIDto() {
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+    public BMIDto(int weight, Unit unit) {
+        Weight = weight;
+        this.unit = unit;
     }
 
     public int getWeight() {
-        return weight;
+        return Weight;
     }
 
     public void setWeight(int weight) {
-        this.weight = weight;
+        Weight = weight;
     }
 
     public Unit getUnit() {

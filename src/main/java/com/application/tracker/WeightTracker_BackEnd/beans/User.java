@@ -1,6 +1,5 @@
 package com.application.tracker.WeightTracker_BackEnd.beans;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -18,6 +17,8 @@ public class User {
     private String emailId;
     private int height;
 
+
+    //Added JsonManagedReference to resolve infinite recursion issue.
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private Set<WeightData> weightData;

@@ -1,9 +1,7 @@
 package com.application.tracker.WeightTracker_BackEnd.beans;
 
 
-import com.application.tracker.WeightTracker_BackEnd.Unit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -20,6 +18,7 @@ public class WeightData {
     private String unit;
 
 
+    // Added JsonBackReference to resolve infinite recursion issue
     @ManyToOne
     @JsonBackReference
     private User user;
@@ -68,5 +67,16 @@ public class WeightData {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    @Override
+    public String toString() {
+        return "WeightData{" +
+                "id=" + id +
+                ", date=" + date +
+                ", weight=" + weight +
+                ", unit='" + unit + '\'' +
+                ", user=" + user +
+                '}';
     }
 }
