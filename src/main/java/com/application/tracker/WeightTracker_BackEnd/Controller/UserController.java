@@ -63,15 +63,24 @@ public class UserController {
     @PostMapping("/addWeightData/{id}")
     public void addUserWeightData(@PathVariable(value = "id") Long id, @RequestBody WeightDto weightDto) throws ParseException {
         if (validateUser(id)) {
-            User user =  userRepo.findById(id).get();
-            WeightData weightData = new WeightData();
-            weightData.setUnit(weightDto.getUnit().toString() );
-            weightData.setWeight(weightDto.getWeight());
-            weightData.setUser(user);
-            //Converting date from string format to java.util.date then java.sql.date
-            weightData.setDate(convertDate(weightDto.getDate()));
+            User user = userRepo.findById(id).get();
+            System.out.println("The users data is : "+ weightDto.getWeight() + weightDto.getUnit()+ weightDto.getDate());
+            if(weightDto.getId() == null) {
+                WeightData weightData = new WeightData();
+                weightData.setUnit(weightDto.getUnit().toString());
+                weightData.setWeight(weightDto.getWeight());
+                weightData.setUser(user);
+                //Converting date from string format to java.util.date then java.sql.date
+                weightData.setDate(convertDate(weightDto.getDate()));
 
-            weightRepo.save(weightData);
+                weightRepo.save(weightData);
+            } else{
+                WeightData existingData = weightRepo.findById(weightDto.getId()).get();
+                existingData.setUnit(weightDto.getUnit().toString());
+                existingData.setWeight(weightDto.getWeight());
+                existingData.setDate(convertDate(weightDto.getDate()));
+                weightRepo.save(existingData);
+            }
         } else {
             throw new NullPointerException("not user found");
         }

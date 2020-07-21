@@ -39,5 +39,10 @@ public class WeightTrackerController {
         return "Hello you are now in Weight Tracker";
     }
 
+    @DeleteMapping("/deleteData/{dataId}")
+    public void deleteUserDataById(@PathVariable(value = "dataId") Long dataId) {
+        this.weightDataRepo.delete(this.weightDataRepo.findById(dataId).get());
+    }
+
 
 }
