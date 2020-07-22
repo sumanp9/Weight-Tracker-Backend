@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 @RestController @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
@@ -29,12 +31,15 @@ public class UserController {
         return "<h1>Welcome to back end of weight tracking application";
     }
 
-    @GetMapping("/login/{emailId}")
-    public User login(@PathVariable(value = "emailId") String email) {
-        System.out.println("The email address is : "+ email);
+    @PostMapping("/login/{emailId}")
+    public User login(@PathVariable(value = "emailId") String email, @RequestBody String password) {
         User user =  userRepo.findByEmailId(email);
-        System.out.println("The user's first name is: "+ user.getFirstName());
-        return user;
+        if (user.getEmailId().equals(email) && user.getPassword().equals(password)) {
+            return user;
+        }
+        else {
+            throw new NullPointerException("User email or/and password are incorrect!");
+        }
     }
 
     @PostMapping("/registerUser")
@@ -44,7 +49,7 @@ public class UserController {
         System.out.println(userDto.getFirstName());
 
         //List<User> user = userRepo.find
-        User user = login(userDto.getEmailId());
+        User user = userRepo.findByEmailId(userDto.getEmailId());
         if (user == null) {
             User newUser =  new User();
             newUser.setFirstName(userDto.getFirstName());
@@ -87,6 +92,8 @@ public class UserController {
     }
 
     private Date convertDate(String date) throws ParseException {
+
+        System.out.println(date);
         String DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
         SimpleDateFormat format =  new SimpleDateFormat(DATE_FORMAT_PATTERN);
         java.util.Date parsedDate = format.parse(date);

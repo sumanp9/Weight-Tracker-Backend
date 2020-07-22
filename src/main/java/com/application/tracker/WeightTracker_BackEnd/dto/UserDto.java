@@ -6,6 +6,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String emailId;
+    private String password;
     private int height;
 
     public Long getId() {
@@ -22,6 +23,10 @@ public class UserDto {
 
     public String getEmailId() {
         return emailId;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public int getHeight() {

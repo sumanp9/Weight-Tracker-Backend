@@ -15,6 +15,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String emailId;
+    private String password;
     private int height;
 
 
@@ -26,11 +27,12 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String emailId, int height) {
+    public User(String firstName, String lastName, String emailId, String password, int height) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailId = emailId;
         this.height = height;
+        this.password = password;
     }
 
     public Long getId() {
@@ -60,6 +62,14 @@ public class User {
 
     public void setEmailId(String emailId) {
         this.emailId = emailId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getHeight() {
