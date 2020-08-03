@@ -56,6 +56,7 @@ public class UserController {
             newUser.setLastName(userDto.getLastName());
             newUser.setEmailId(userDto.getEmailId());
             newUser.setHeight(userDto.getHeight());
+            newUser.setPassword(userDto.getPassword());
             user =  newUser;
             userRepo.save(newUser);
         } else {
