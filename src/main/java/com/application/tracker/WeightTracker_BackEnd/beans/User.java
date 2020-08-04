@@ -1,5 +1,6 @@
 package com.application.tracker.WeightTracker_BackEnd.beans;
 
+import com.application.tracker.WeightTracker_BackEnd.Role;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class User {
     private String emailId;
     private String password;
     private int height;
+    private String role;
 
 
     //Added JsonManagedReference to resolve infinite recursion issue.
@@ -27,12 +29,13 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String emailId, String password, int height) {
+    public User(String firstName, String lastName, String emailId, String password, int height, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailId = emailId;
         this.height = height;
         this.password = password;
+        this.role =  role;
     }
 
     public Long getId() {
@@ -86,5 +89,13 @@ public class User {
 
     public void setWeightData(Set<WeightData> weightData) {
         this.weightData = weightData;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

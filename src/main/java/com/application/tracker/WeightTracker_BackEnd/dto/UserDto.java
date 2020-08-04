@@ -1,5 +1,7 @@
 package com.application.tracker.WeightTracker_BackEnd.dto;
 
+import com.application.tracker.WeightTracker_BackEnd.Role;
+
 public class UserDto {
 
     private Long id;
@@ -8,6 +10,7 @@ public class UserDto {
     private String emailId;
     private String password;
     private int height;
+    private Role role;
 
     public Long getId() {
         return id;
@@ -31,5 +34,13 @@ public class UserDto {
 
     public int getHeight() {
         return height;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

@@ -1,6 +1,7 @@
 package com.application.tracker.WeightTracker_BackEnd.Controller;
 
 
+import com.application.tracker.WeightTracker_BackEnd.beans.AdminUserData;
 import com.application.tracker.WeightTracker_BackEnd.beans.User;
 import com.application.tracker.WeightTracker_BackEnd.beans.WeightData;
 import com.application.tracker.WeightTracker_BackEnd.dto.UserDto;
@@ -8,11 +9,13 @@ import com.application.tracker.WeightTracker_BackEnd.dto.WeightDto;
 import com.application.tracker.WeightTracker_BackEnd.repository.UserProfileRepo;
 import com.application.tracker.WeightTracker_BackEnd.repository.WeightDataRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -29,6 +32,19 @@ public class UserController {
     @GetMapping("/")
     public String homePage() {
         return "<h1>Welcome to back end of weight tracking application";
+    }
+
+    @GetMapping("/getAllUsers")
+    public List<AdminUserData> getAllUsers(){
+        List<AdminUserData> users =  new ArrayList<>();
+        this.userRepo.findAll().forEach(user -> {
+            AdminUserData adminUserData = new AdminUserData();
+            adminUserData.setId(user.getId());
+            adminUserData.setName(user.getFirstName()+ " " + user.getLastName());
+            adminUserData.setEmail(user.getEmailId());
+            users.add(adminUserData);
+        });
+        return users;
     }
 
     @PostMapping("/login/{emailId}")
@@ -57,6 +73,7 @@ public class UserController {
             newUser.setEmailId(userDto.getEmailId());
             newUser.setHeight(userDto.getHeight());
             newUser.setPassword(userDto.getPassword());
+            newUser.setRole(userDto.getRole().toString());
             user =  newUser;
             userRepo.save(newUser);
         } else {
@@ -89,6 +106,18 @@ public class UserController {
             }
         } else {
             throw new NullPointerException("not user found");
+        }
+    }
+
+    @DeleteMapping("/user/delete/id/{id}")
+    public void deleteUser(@PathVariable(value = "id") Long id) {
+        if (this.userRepo.findById(id) != null ) {
+            this.weightRepo.findAllByUserId(id).forEach(data -> {
+                this.weightRepo.delete(data);
+            });
+            this.userRepo.delete(this.userRepo.findById(id).get());
+        } else {
+            throw new NullPointerException("Unable to find user with id "+ id);
         }
     }
 
