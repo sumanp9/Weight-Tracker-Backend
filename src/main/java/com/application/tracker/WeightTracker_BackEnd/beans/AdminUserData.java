@@ -2,17 +2,20 @@ package com.application.tracker.WeightTracker_BackEnd.beans;
 
 public class AdminUserData {
     private Long id;
-    private String name;
+    private String fName;
+    private String lName;
     private String email;
+    private String role;
 
 
     public AdminUserData() {
     }
 
-    public AdminUserData(Long id, String name, String email) {
-        this.id = id;
-        this.name = name;
+    public AdminUserData(String fName, String lName, String email, String role) {
+        this.fName = fName;
+        this.lName = lName;
         this.email = email;
+        this.role = role;
     }
 
     public Long getId() {
@@ -23,12 +26,20 @@ public class AdminUserData {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getfName() {
+        return fName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setfName(String fName) {
+        this.fName = fName;
+    }
+
+    public String getlName() {
+        return lName;
+    }
+
+    public void setlName(String lName) {
+        this.lName = lName;
     }
 
     public String getEmail() {
@@ -37,5 +48,13 @@ public class AdminUserData {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

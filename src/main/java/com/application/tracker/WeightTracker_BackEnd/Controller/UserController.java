@@ -1,6 +1,7 @@
 package com.application.tracker.WeightTracker_BackEnd.Controller;
 
 
+import com.application.tracker.WeightTracker_BackEnd.Role;
 import com.application.tracker.WeightTracker_BackEnd.beans.AdminUserData;
 import com.application.tracker.WeightTracker_BackEnd.beans.User;
 import com.application.tracker.WeightTracker_BackEnd.beans.WeightData;
@@ -9,14 +10,12 @@ import com.application.tracker.WeightTracker_BackEnd.dto.WeightDto;
 import com.application.tracker.WeightTracker_BackEnd.repository.UserProfileRepo;
 import com.application.tracker.WeightTracker_BackEnd.repository.WeightDataRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 @RestController @CrossOrigin(origins = "http://localhost:4200")
@@ -40,8 +39,10 @@ public class UserController {
         this.userRepo.findAll().forEach(user -> {
             AdminUserData adminUserData = new AdminUserData();
             adminUserData.setId(user.getId());
-            adminUserData.setName(user.getFirstName()+ " " + user.getLastName());
+            adminUserData.setfName(user.getFirstName());
+            adminUserData.setlName(user.getLastName());
             adminUserData.setEmail(user.getEmailId());
+            adminUserData.setRole(user.getRole());
             users.add(adminUserData);
         });
         return users;
@@ -73,7 +74,11 @@ public class UserController {
             newUser.setEmailId(userDto.getEmailId());
             newUser.setHeight(userDto.getHeight());
             newUser.setPassword(userDto.getPassword());
-            newUser.setRole(userDto.getRole().toString());
+            if (userDto.getRole().toString().isEmpty()) {
+                newUser.setRole(Role.User.toString());
+            } else {
+                newUser.setRole(userDto.getRole().toString());
+            }
             user =  newUser;
             userRepo.save(newUser);
         } else {
@@ -118,6 +123,20 @@ public class UserController {
             this.userRepo.delete(this.userRepo.findById(id).get());
         } else {
             throw new NullPointerException("Unable to find user with id "+ id);
+        }
+    }
+
+    @PostMapping("/user/update")
+    public void updateUser(@RequestBody AdminUserData adminUserData) {
+        if (adminUserData != null) {
+            User user = this.userRepo.findById(adminUserData.getId()).get();
+            user.setFirstName(adminUserData.getfName());
+            user.setLastName(adminUserData.getlName());
+            user.setRole(adminUserData.getRole());
+            user.setEmailId(adminUserData.getEmail());
+            this.userRepo.save(user);
+        } else {
+            throw  new NullPointerException("Unable to find the user");
         }
     }
 
